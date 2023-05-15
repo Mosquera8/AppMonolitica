@@ -15,6 +15,7 @@ public class AcopioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
+    private int ID;
     public String fecha;
     public char turno;
     public int id_proveedor;

@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -21,5 +23,25 @@ public class ProveedorController {
         model.addAttribute("proveedores",proveedores);
         return "index_listar";
     }
+
+    @GetMapping("/nuevo-proveedor")
+    public String proveedor(){
+        return "nuevo-proveedor";
+    }
+    @PostMapping("/nuevo-proveedor")
+    public String nuevoProveedor(@RequestParam("codigo") int codigo,
+                                 @RequestParam("nombre") String nombre,
+                                 @RequestParam("categoria") char categoria,
+                                 @RequestParam("retencion") int retencion){
+
+        ProveedorEntity proveedor = new ProveedorEntity();
+        proveedor.setCode(codigo);
+        proveedor.setNombre(nombre);
+        proveedor.setCategoria(categoria);
+        proveedor.setRetencion(retencion);
+        proveedorService.guardarProveedor(proveedor);
+        return "redirect:/nuevo-proveedor";
+    }
+
 
 }
