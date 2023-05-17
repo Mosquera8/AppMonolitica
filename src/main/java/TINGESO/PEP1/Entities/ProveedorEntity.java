@@ -16,6 +16,7 @@ public class ProveedorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true,nullable = false)
+    public int ID;
     public int code;
     public String nombre;
     public char categoria;
