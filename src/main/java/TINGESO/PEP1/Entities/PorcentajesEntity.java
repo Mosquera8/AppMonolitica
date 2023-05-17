@@ -14,6 +14,7 @@ public class PorcentajesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true,nullable = false)
+
     public int id_proveedor;
     public int grasas;
     public int solidos;

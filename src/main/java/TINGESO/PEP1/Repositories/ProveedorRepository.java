@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface ProveedorRepository extends CrudRepository<ProveedorEntity, Integer> {
     @Query("select e from ProveedorEntity e where e.code = :code")
     ProveedorEntity findByCodigo(@Param("code") int code);
+
 }

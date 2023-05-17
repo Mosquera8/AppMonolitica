@@ -64,11 +64,12 @@ public class AcopioService {
         }catch (Exception e){
             log.error("Error al leer el archivo: " + e.getMessage());
         }finally{
-            try{
-                bf.close();
-            }catch (Exception e){
-                log.error("Error al cerrar el archivo: " + e.getMessage());
-            }
+            if(bf != null)
+                try{
+                    bf.close();
+                }catch (Exception e){
+                    log.error("Error al cerrar el archivo: " + e.getMessage());
+                }
         }
     }
 
