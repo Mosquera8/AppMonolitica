@@ -15,10 +15,10 @@ public class AcopioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    private int ID;
+    private Integer ID;
     public String fecha;
-    public char turno;
-    public int id_proveedor;
-    public int kg_leche;
+    public String turno;
+    public Integer id_proveedor;
+    public Integer kg_leche;
 
 }

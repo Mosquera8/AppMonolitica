@@ -29,10 +29,10 @@ public class ProveedorController {
         return "nuevo-proveedor";
     }
     @PostMapping("/nuevo-proveedor")
-    public String nuevoProveedor(@RequestParam("codigo") int codigo,
+    public String nuevoProveedor(@RequestParam("codigo") Integer codigo,
                                  @RequestParam("nombre") String nombre,
-                                 @RequestParam("categoria") char categoria,
-                                 @RequestParam("retencion") int retencion){
+                                 @RequestParam("categoria") String categoria,
+                                 @RequestParam("retencion") Integer retencion){
 
         ProveedorEntity proveedor = new ProveedorEntity();
         proveedor.setCode(codigo);
