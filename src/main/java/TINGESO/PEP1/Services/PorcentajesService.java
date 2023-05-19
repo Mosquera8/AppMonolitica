@@ -59,7 +59,7 @@ public class PorcentajesService {
             String bfread;
             while((bfread = bf.readLine()) != null){
                 texto = temp;
-                String[] datos = texto.split(",");
+                String[] datos = texto.split(";");
                 guardarPorcentajesDB(Integer.parseInt(datos[0]), Integer.parseInt(datos[1]), Integer.parseInt(datos[2]));
                 temp = temp + "\n" + bfread;
             }

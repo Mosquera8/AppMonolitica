@@ -51,17 +51,14 @@ public class AcopioService {
         //acopioReposirtory.deleteAll();
         try{
             bf = new BufferedReader(new FileReader(direccion));
-            String temp = "";
+            String temp = bf.readLine();
             String bfread;
-            int count = 1;
             while((bfread = bf.readLine()) != null){
-                if(count == 1){
-                    count= 0;
-                }else{
-                    String[] datos = bfread.split(";");
-                    guardarAcopioDB(datos[0], datos[1], Integer.parseInt(datos[2]), Integer.parseInt(datos[3]));
-                    temp = temp + "\n" + bfread;
-                }
+
+                String[] datos = bfread.split(";");
+                guardarAcopioDB(datos[0], datos[1], Integer.parseInt(datos[2]), Integer.parseInt(datos[3]));
+                temp = temp + "\n" + bfread;
+
             }
             texto= temp;
             System.out.println("Achivo leido correctamente: " + texto);
@@ -77,6 +74,7 @@ public class AcopioService {
         }
     }
 
+    @Generated
     public void guardarAcopioDB(String fecha, String turno, int id_proovedor, int kg_leche){
         AcopioEntity acopio = new AcopioEntity();
         acopio.setFecha(fecha);
