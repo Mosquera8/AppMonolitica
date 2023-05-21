@@ -1,6 +1,7 @@
 package TINGESO.PEP1.Services;
 
 import TINGESO.PEP1.Entities.AcopioEntity;
+import TINGESO.PEP1.Entities.ProveedorEntity;
 import TINGESO.PEP1.Repositories.AcopioRepository;
 import lombok.Generated;
 import org.slf4j.Logger;
@@ -15,7 +16,10 @@ import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AcopioService {
@@ -56,7 +60,7 @@ public class AcopioService {
             while((bfread = bf.readLine()) != null){
 
                 String[] datos = bfread.split(";");
-                guardarAcopioDB(datos[0], datos[1], Integer.parseInt(datos[2]), Integer.parseInt(datos[3]));
+                guardarAcopioDB(datos[0], datos[1], datos[2], Double.parseDouble(datos[3]));
                 temp = temp + "\n" + bfread;
 
             }
@@ -75,13 +79,34 @@ public class AcopioService {
     }
 
     @Generated
-    public void guardarAcopioDB(String fecha, String turno, int id_proovedor, int kg_leche){
+    public void guardarAcopioDB(String fecha, String turno, String codigo, Double kg_leche){
         AcopioEntity acopio = new AcopioEntity();
-        acopio.setFecha(fecha);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        acopio.setFecha(LocalDate.parse(fecha, formatter));
         acopio.setTurno(turno);
-        acopio.setId_proveedor(id_proovedor);
+        acopio.setProveedor(codigo);
         acopio.setKg_leche(kg_leche);
 
         acopioRepository.save(acopio);
     }
+
+
+    public List<AcopioEntity> ultimaQuincena() {
+        LocalDate fechaActual = LocalDate.now();
+
+        LocalDate inicioQuincena = fechaActual.minusDays(14);
+
+        // Puedes guardar el reporte quincenal en la base de datos u realizar otras operaciones necesarias
+
+        return acopioRepository.findAcopiosBetweenDates(inicioQuincena, fechaActual);
+    }
+
+    public List<AcopioEntity> quincenaAnterior(){
+        LocalDate fechaActual = LocalDate.now();
+        LocalDate finalQuincenaAnterior = fechaActual.minusDays(15);
+        LocalDate inicioQuincenaAnterior = finalQuincenaAnterior.minusDays(14);
+        return acopioRepository.findAcopiosBetweenDates(inicioQuincenaAnterior, finalQuincenaAnterior);
+    }
+
 }

@@ -29,7 +29,7 @@ public class ProveedorController {
         return "nuevo-proveedor";
     }
     @PostMapping("/nuevo-proveedor")
-    public String nuevoProveedor(@RequestParam("codigo") Integer codigo,
+    public String nuevoProveedor(@RequestParam("codigo") String codigo,
                                  @RequestParam("nombre") String nombre,
                                  @RequestParam("categoria") String categoria,
                                  @RequestParam("retencion") Integer retencion){

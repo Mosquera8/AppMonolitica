@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 
 @Entity
 @Table(name = "acopio")
@@ -16,9 +18,11 @@ public class AcopioEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Integer ID;
-    public String fecha;
+    public LocalDate fecha;
     public String turno;
-    public Integer id_proveedor;
-    public Integer kg_leche;
+    public String proveedor;
+    public Double kg_leche;
+
+
 
 }

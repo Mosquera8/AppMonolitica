@@ -2,6 +2,7 @@ package TINGESO.PEP1.Services;
 
 import TINGESO.PEP1.Entities.AcopioEntity;
 import TINGESO.PEP1.Entities.PorcentajesEntity;
+import TINGESO.PEP1.Entities.ProveedorEntity;
 import TINGESO.PEP1.Repositories.PorcentajesRepository;
 import lombok.Generated;
 import org.slf4j.Logger;
@@ -22,6 +23,8 @@ public class PorcentajesService {
 
     @Autowired
     PorcentajesRepository porcentajesRepository;
+    @Autowired
+    ProveedorService proveedorService;
 
     private final Logger log = LoggerFactory.getLogger(AcopioService.class);
     public ArrayList<PorcentajesEntity> getPorcentajes(){
@@ -60,7 +63,7 @@ public class PorcentajesService {
             while((bfread = bf.readLine()) != null){
                 texto = temp;
                 String[] datos = texto.split(";");
-                guardarPorcentajesDB(Integer.parseInt(datos[0]), Integer.parseInt(datos[1]), Integer.parseInt(datos[2]));
+                guardarPorcentajesDB(datos[0], Integer.parseInt(datos[1]), Integer.parseInt(datos[2]));
                 temp = temp + "\n" + bfread;
             }
             texto = temp;
@@ -78,9 +81,9 @@ public class PorcentajesService {
     }
 
     @Generated
-    public void guardarPorcentajesDB(int id_proveedor,int grasas,int solidos){
+    public void guardarPorcentajesDB(String codigo,int grasas,int solidos){
         PorcentajesEntity porcentajesEntity = new PorcentajesEntity();
-        porcentajesEntity.setId_proveedor(id_proveedor);
+        porcentajesEntity.setProveedor(codigo);
         porcentajesEntity.setGrasas(grasas);
         porcentajesEntity.setSolidos(solidos);
         porcentajesRepository.save(porcentajesEntity);
