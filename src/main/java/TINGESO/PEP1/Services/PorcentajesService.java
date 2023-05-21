@@ -16,6 +16,7 @@ import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 @Service
@@ -26,7 +27,12 @@ public class PorcentajesService {
     @Autowired
     ProveedorService proveedorService;
 
+
     private final Logger log = LoggerFactory.getLogger(AcopioService.class);
+
+    public PorcentajesEntity obtenerPorCodigoYFecha(String codigo, LocalDate fecha){
+        return porcentajesRepository.findByProveedorAndFecha(codigo, fecha);
+    }
     public ArrayList<PorcentajesEntity> getPorcentajes(){
         ArrayList<PorcentajesEntity> porcentajes = new ArrayList<>();
         porcentajesRepository.findAll().forEach(porcentajes::add);
@@ -86,6 +92,7 @@ public class PorcentajesService {
         porcentajesEntity.setProveedor(codigo);
         porcentajesEntity.setGrasas(grasas);
         porcentajesEntity.setSolidos(solidos);
+        porcentajesEntity.setFecha(LocalDate.now());
         porcentajesRepository.save(porcentajesEntity);
     }
 }

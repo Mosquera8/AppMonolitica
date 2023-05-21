@@ -1,6 +1,8 @@
 package TINGESO.PEP1.Services;
 
+import TINGESO.PEP1.Entities.AcopioEntity;
 import TINGESO.PEP1.Entities.ProveedorEntity;
+import TINGESO.PEP1.Repositories.AcopioRepository;
 import TINGESO.PEP1.Repositories.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,12 @@ import java.util.List;
 public class ProveedorService {
     @Autowired
     ProveedorRepository proveedorRepo;
+
+    @Autowired
+    AcopioRepository acopioRepository;
+
+    @Autowired
+    AcopioService acopioService;
     public List<ProveedorEntity> obtenerProveedores(){
         return (List<ProveedorEntity>) proveedorRepo.findAll();
     }
@@ -22,6 +30,8 @@ public class ProveedorService {
     public ProveedorEntity obtenerPorCodigo(String codigo){
         return proveedorRepo.findByCode(codigo);
     }
+
+
 
 
 

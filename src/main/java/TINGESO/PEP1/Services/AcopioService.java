@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AcopioService {
@@ -91,14 +92,18 @@ public class AcopioService {
         acopioRepository.save(acopio);
     }
 
-
+    public List<AcopioEntity> quincenaPorProveedor(String codigo, int tipo){
+        List<AcopioEntity> quincena;
+        if(tipo == 1){
+            quincena = ultimaQuincena();
+        }else{
+            quincena = quincenaAnterior();
+        }
+        return quincena.stream().filter(AcopioEntity -> AcopioEntity.getProveedor().equals(codigo)).toList();
+    }
     public List<AcopioEntity> ultimaQuincena() {
         LocalDate fechaActual = LocalDate.now();
-
         LocalDate inicioQuincena = fechaActual.minusDays(14);
-
-        // Puedes guardar el reporte quincenal en la base de datos u realizar otras operaciones necesarias
-
         return acopioRepository.findAcopiosBetweenDates(inicioQuincena, fechaActual);
     }
 

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "porcentajes")
 @Data
@@ -19,5 +21,6 @@ public class PorcentajesEntity {
     public String proveedor;
     public Integer grasas;
     public Integer solidos;
+    public LocalDate fecha;
 
 }
