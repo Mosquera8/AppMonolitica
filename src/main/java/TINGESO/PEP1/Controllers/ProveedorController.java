@@ -17,11 +17,11 @@ import java.util.List;
 public class ProveedorController {
     @Autowired
     ProveedorService proveedorService;
-    @GetMapping("/listar")
+    @GetMapping("/listar-proveedores")
     public String listar(Model model){
         List<ProveedorEntity> proveedores = proveedorService.obtenerProveedores();
         model.addAttribute("proveedores",proveedores);
-        return "index_listar";
+        return "index-listar";
     }
 
     @GetMapping("/nuevo-proveedor")

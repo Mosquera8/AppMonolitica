@@ -83,7 +83,7 @@ public class AcopioService {
     public void guardarAcopioDB(String fecha, String turno, String codigo, Double kg_leche){
         AcopioEntity acopio = new AcopioEntity();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         acopio.setFecha(LocalDate.parse(fecha, formatter));
         acopio.setTurno(turno);
         acopio.setProveedor(codigo);

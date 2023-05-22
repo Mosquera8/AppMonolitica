@@ -1,13 +1,17 @@
 package TINGESO.PEP1.Services;
 
 import TINGESO.PEP1.Entities.AcopioEntity;
+import TINGESO.PEP1.Entities.PlanillaEntity;
 import TINGESO.PEP1.Entities.PorcentajesEntity;
 import TINGESO.PEP1.Entities.ProveedorEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PagoService {
@@ -18,8 +22,9 @@ public class PagoService {
     @Autowired
     PorcentajesService porcentajesService;
 
-
-    public void generarPlanillaPago(String codigoProveedor) {
+    @Autowired
+    PlanillaService planillaService;
+    public PlanillaEntity generarPlanillaPago(String codigoProveedor) {
         // Obtener los acopios de leche de la última quincena del proveedor por su código identificador
         List<AcopioEntity> acopiosUltimaQuincena = acopioService.quincenaPorProveedor(codigoProveedor,1);
 
@@ -34,6 +39,8 @@ public class PagoService {
                 .mapToDouble(AcopioEntity::getKg_leche)
                 .sum();
 
+        double promedioDiario = cantidadTotalLeche/15;
+        Integer dias = obtenerDias(acopiosUltimaQuincena);
         // Asignar el pago por kilo de leche según la categoría del proveedor
         double pagoPorKilo = obtenerPagoPorKilo(proveedor);
 
@@ -46,16 +53,33 @@ public class PagoService {
 
         double montoTotalBonificado = montoTotal + bonificacionFrecuencia;
 
-        double descuentoLeche = descuentoVariacionL(codigoProveedor, cantidadTotalLeche);
+        double variaconLeche = variacionLeche(codigoProveedor, cantidadTotalLeche);
+        double variacionGrasa = variacionGrasa(codigoProveedor, porcentajesActual.getGrasas());
+        double variacionSolidos = variacionSolidos(codigoProveedor, porcentajesActual.getSolidos());
+
+        double descuentoLeche = descuentoVariacionKilos(codigoProveedor, cantidadTotalLeche);
+        double descuentoGrasa = descuentoVariacionGrasa(codigoProveedor, porcentajesActual.getGrasas());
+        double descuentoSolidos = descuentoVariacionSolidos(codigoProveedor, porcentajesActual.getSolidos());
+
+
+        double pagoTotal = montoTotalBonificado - descuentoLeche - descuentoGrasa - descuentoSolidos;
 
 
 
+        double pagoFinal;
+        if(proveedor.getRetencion() == 1){
+            pagoFinal = pagoFinal(pagoTotal);
+        }else {
+            pagoFinal = pagoTotal;
+        }
+        double retencion = pagoFinal - pagoTotal;
 
-        // Generar la planilla de pago
-        System.out.println("Planilla de Pago para el Proveedor: " + codigoProveedor);
-        System.out.println("Cantidad de leche enviada: " + cantidadTotalLeche + " kilos");
-        System.out.println("Pago por kilo de leche: $" + pagoPorKilo);
-        System.out.println("Monto total a pagar: $" + montoTotalBonificado);
+
+        return planillaService.crearPlanilla(LocalDate.now(),codigoProveedor,
+                proveedor.getNombre(), cantidadTotalLeche, dias, promedioDiario, variaconLeche,
+                porcentajesActual.grasas, variacionGrasa, porcentajesActual.solidos, variacionSolidos,
+                pagoPorLeche, pagoPorGrasa, pagoPorSolidos, bonificacionFrecuencia, descuentoLeche,
+                descuentoGrasa,descuentoSolidos, pagoTotal, retencion, pagoFinal);
     }
 
     private double obtenerPagoPorKilo(ProveedorEntity proveedor) {
@@ -120,7 +144,7 @@ public class PagoService {
         }
     }
 
-    private double descuentoVariacionL(String proveedor,Double cantidadActual){
+    private double descuentoVariacionKilos(String proveedor,Double cantidadActual){
         double variacion = variacionLeche(proveedor,cantidadActual);
         if(variacion <= -0.46){
             return 0.3;
@@ -140,4 +164,59 @@ public class PagoService {
         return (cantidadActual - cantidadLecheAnterior)/cantidadLecheAnterior;
     }
 
+    private double descuentoVariacionGrasa(String proveedor,Integer cantidadActual){
+        double variacion = variacionGrasa(proveedor,cantidadActual);
+        if(variacion <= -0.41){
+            return 0.3;
+        }else if(variacion <= -0.26){
+            return 0.20;
+        }else if(variacion <= -0.16) {
+            return 0.12;
+        }else{
+            return 0.0;
+        }
+    }
+
+    private double variacionGrasa(String proveedor,Integer cantidadActual){
+        LocalDate quincenaAnterior = LocalDate.now().minusDays(15);
+        PorcentajesEntity porentajeQuinAnt = porcentajesService.obtenerPorCodigoYFecha(proveedor,quincenaAnterior);
+        double grasaAnterior = porentajeQuinAnt.getGrasas();
+        return (cantidadActual - grasaAnterior)/grasaAnterior;
+    }
+
+    private double descuentoVariacionSolidos(String proveedor,Integer cantidadActual){
+        double variacion = variacionSolidos(proveedor,cantidadActual);
+        if(variacion <= -0.36){
+            return 0.45;
+        }else if(variacion <= -0.13){
+            return 0.27;
+        }else if(variacion <= -0.07) {
+            return 0.18;
+        }else{
+            return 0.0;
+        }
+    }
+
+    private double variacionSolidos(String proveedor,Integer cantidadActual){
+        LocalDate quincenaAnterior = LocalDate.now().minusDays(15);
+        PorcentajesEntity porentajeQuinAnt = porcentajesService.obtenerPorCodigoYFecha(proveedor,quincenaAnterior);
+        double solidosAnterior = porentajeQuinAnt.getSolidos();
+        return (cantidadActual - solidosAnterior)/solidosAnterior;
+    }
+
+    private double pagoFinal(double pago){
+        if(pago > 950000){
+            return pago - (pago * 0.13);
+        }
+        return pago;
+    }
+
+    private Integer obtenerDias(List<AcopioEntity> quincena){
+        ArrayList<LocalDate> dias = new ArrayList<>();
+        for(AcopioEntity acopio : quincena){
+            dias.add(acopio.getFecha());
+        }
+        Set<LocalDate> diasUnicos = new HashSet<>(dias);
+        return diasUnicos.size();
+    }
 }
