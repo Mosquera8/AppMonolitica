@@ -15,7 +15,7 @@ services:
     container_name: proyecto_monolitico
     image: ricardouni/proyecto_monolitico
     ports:
-      - "8091:8090"
+      - "8090:8090"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/monolitica?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
       - SPRING_DATASOURCE_USERNAME=root
