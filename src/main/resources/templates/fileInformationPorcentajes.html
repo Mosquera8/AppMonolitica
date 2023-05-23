@@ -2,10 +2,9 @@
 <html lang="es"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head>
 
-  <title>RichitoLechera - Inicio</title>
-  <link rel = "stylesheet" href= "../static/style.css" type="text/css" th:href="@{/style.css}">
+<head>
+  <title>Información de Acopio.csv</title>
   <link rel="stylesheet" href="../static/style.css" type="text/css" th:href="@{/style.css}">
   <meta charset="UTF-8">
   <link rel="stylesheet"
@@ -15,11 +14,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
 </head>
 <style>
   body {
-    background-color: #FAF4FA;
+    background-color: #D6E1EC;
     color: #D889BC;
     font-family: Calibri, sans-serif;
     margin: 0;
@@ -27,33 +26,44 @@
   }
 
   .header {
-    background-color: #FAF4FA;
+    background-color: #549CEC;
     padding: 10px;
     text-align: center;
   }
 </style>
 <body>
-<header>
-
+<header class="header">
   <a href="https://ibb.co/BzMqhqq"><img src="https://i.ibb.co/Lk7nTnn/Logo-Lechera.png" alt="Logo-Lechera" border="0"></a>
   <div class="logo">
-    <br><h1 style="font-size: 48px"><b>Bienvenido a Lechera Richito<b></h1>
-    <h1></h1>
+    <br><h1>Información de Acopio.csv</h1>
   </div>
+  <nav>
+  </nav>
+  <a class="cta-button" href="/">Volver al menú principal</a>
+  <a class="cta-button" href="/porcentajes">Cargar un nuevo .CSV</a>
 </header>
 
-<div class="hero-image">
-  <div class="container">
-    <div class="hero-text">
-      <a href="/acopio" class="cta-button"><i class="fas fa-file-csv"></i> Subir Acopio</a>
-      <a href="/porcentajes" class="cta-button"><i class="fas fa-percent"></i>Subir Porcentajes</a>
-      <a href="/listar-proveedores" class="cta-button"><i class="fas fa-users"></i> Consultar Proveedores</a>
-      <a href="/planilla" class="cta-button"><i class="fas fa-table"></i> Generar Planilla</a>
-    </div>
-  </div>
-</div>
+<div align="center" class="container">
 
+  <table border="1" class="content-table">
+    <thead>
+    <tr>
+      <th>Proveedor</th>
+      <th>Porcentaje grasas</th>
+      <th>Porcentaje solidos</th>
+      <th>Fecha</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="datas:${datas}">
+      <td th:text="${datas.proveedor}"></td>
+      <td th:text="${datas.grasas}"></td>
+      <td th:text="${datas.solidos}"></td>
+      <td th:text="${datas.fecha}"></td>
 
+    </tr>
+    </tbody>
+  </table>
 </div>
 </body>
 </html>

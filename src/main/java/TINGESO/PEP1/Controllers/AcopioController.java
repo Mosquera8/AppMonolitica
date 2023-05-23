@@ -32,10 +32,10 @@ public class AcopioController {
         acopioService.leerCsv("Acopio.csv");
         return "redirect:/acopio";
     }
-    @GetMapping("/fileInformation")
+    @GetMapping("/fileInformationAcopio")
     public String listar(Model model){
         ArrayList<AcopioEntity> datas = acopioService.getAcopio();
         model.addAttribute("datas",datas);
-        return "fileInformation";
+        return "fileInformationAcopio";
     }
 }

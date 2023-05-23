@@ -26,7 +26,7 @@ public class ProveedorController {
 
     @GetMapping("/nuevo-proveedor")
     public String proveedor(){
-        return "nuevo-proveedor";
+        return "new-proveedor";
     }
     @PostMapping("/nuevo-proveedor")
     public String nuevoProveedor(@RequestParam("codigo") String codigo,

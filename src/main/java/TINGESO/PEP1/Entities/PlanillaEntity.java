@@ -29,7 +29,7 @@ public class PlanillaEntity {
     private String pago_leche;
     private String pago_grasa;
     private String pago_solidos;
-    private String bonificacion_frecuenia;
+    private String bonificacion_frecuencia;
     private String descuento_leche;
     private String descuento_grasa;
     private String descuento_solidos;

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="../static/style.css" type="text/css" th:href="@{/style.css}">
+  <title>Agregar Proveedor</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<style>
+  body {
+    background-color: #D6E1EC;
+    color: #549CEC;
+    font-family: Calibri, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header {
+    background-color: #549CEC;
+    padding: 10px;
+    text-align: center;
+  }
+</style>
+<body>
+<header class="header">
+  <a href="https://ibb.co/BzMqhqq"><img src="https://i.ibb.co/Lk7nTnn/Logo-Lechera.png" alt="Logo-Lechera" border="0"></a>
+  <div class="logo">
+  </div>
+  <nav>
+  </nav>
+  <a class="cta-button" href="/"><button>Volver al menú principal</button></a>
+</header>
+<div class="mainclass">
+  <form th:action="@{/nuevo-proveedor}" method="POST">
+    <div class="logo">
+      <h1><b>Registrar nuevo Proveedor</b></h1>
+    </div>
+    <ul class="formcontainer">
+      <hr/>
+
+      <ul class="container">
+        <li>
+          <label><strong>Código</strong></label>
+          <input type="text" id="codigo" placeholder="Ingrese el código del proveedor" name="codigo"
+                 required>
+        </li>
+        <li>
+          <label><strong>Nombre Proveedor</strong></label>
+          <input type="text" id="nombre" placeholder="Ingrese el nombre del proveedor" name="nombre"
+                 required>
+        </li>
+        <li>
+          <label><strong>Categoría</strong></label>
+          <select id="categoria" name="categoria" required>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+          </select>
+        </li>
+        <li>
+          <label><strong>Retención</strong></label>
+          <select id="retencion" name="retencion" required>
+            <option value=1>SI</option>
+            <option value=0>NO</option>
+          </select>
+        </li>
+      </ul>
+      <div class="cta-button">
+        <button type="submit">Registrar Proveedor</button>
+      </div>
+    </ul>
+  </form>
+</div>
+</body>
+</html>

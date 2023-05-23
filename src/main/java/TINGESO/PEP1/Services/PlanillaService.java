@@ -31,7 +31,7 @@ public class PlanillaService {
         planilla.setPago_leche(pago_leche.toString());
         planilla.setPago_grasa(pago_grasa.toString());
         planilla.setPago_solidos(pago_solidos.toString());
-        planilla.setBonificacion_frecuenia(bonificacion.toString());
+        planilla.setBonificacion_frecuencia(bonificacion.toString());
         planilla.setDescuento_leche(desc_leche.toString());
         planilla.setDescuento_grasa(desc_grasa.toString());
         planilla.setDescuento_solidos(desc_solidos.toString());
@@ -41,6 +41,7 @@ public class PlanillaService {
 
         return planilla;
     }
+
 }
 
 
