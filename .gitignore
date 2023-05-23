@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 data/
+sonarqube-10.0.0.68432/
 ### STS ###
 .apt_generated
 .classpath
