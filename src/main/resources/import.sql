@@ -7,7 +7,7 @@ INSERT INTO proveedores (categoria, code, nombre, retencion) VALUES ('A', '1005'
 INSERT INTO proveedores (categoria, code, nombre, retencion) VALUES ('C', '1006', 'nombre6', 1);
 INSERT INTO proveedores (categoria, code, nombre, retencion) VALUES ('D', '1007', 'nombre7', 1);
 INSERT INTO proveedores (categoria, code, nombre, retencion) VALUES ('A', '1008', 'nombre8', 1);
-INSERT INTO proveedores (categoria, code, nombre, retencion) VALUES ('A', '1009', 'nombre9', 0);
+
 
 INSERT INTO porcentajes (fecha, grasas, proveedor, solidos) VALUES (DATE_SUB(CURDATE(), INTERVAL 15 DAY), 37, '1000', 42);
 INSERT INTO porcentajes (fecha, grasas, proveedor, solidos) VALUES (DATE_SUB(CURDATE(), INTERVAL 15 DAY), 12, '1001', 13);
