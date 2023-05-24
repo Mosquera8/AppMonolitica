@@ -82,7 +82,7 @@ public class PagoService {
                 descuentoGrasa,descuentoSolidos, pagoTotal, retencion, pagoFinal);
     }
 
-    private double obtenerPagoPorKilo(ProveedorEntity proveedor) {
+    public double obtenerPagoPorKilo(ProveedorEntity proveedor) {
         String categoria = proveedor.getCategoria();
         double pagoPorKilo = 0.0;
         if ("A".equals(categoria)) {
@@ -97,7 +97,7 @@ public class PagoService {
         return pagoPorKilo;
     }
 
-    private double bonificacionPorGrasa(PorcentajesEntity porcentajes){
+    public double bonificacionPorGrasa(PorcentajesEntity porcentajes){
         double grasas = porcentajes.getGrasas();
         if(grasas >= 46.0){
             return 120.0;
@@ -108,8 +108,8 @@ public class PagoService {
         }
     }
 
-    private double bonificacionPorSolidos(PorcentajesEntity porcentajes){
-        double solidos = porcentajes.getGrasas();
+    public double bonificacionPorSolidos(PorcentajesEntity porcentajes){
+        double solidos = porcentajes.getSolidos();
         if(solidos >= 36.0){
             return 150.0;
         }else if(solidos >= 19.0) {
@@ -120,7 +120,7 @@ public class PagoService {
             return -130.0;
         }
     }
-    private double calcularBonificacion(List<AcopioEntity> acopiosQuincenales) {
+    public double calcularBonificacion(List<AcopioEntity> acopiosQuincenales) {
 
         int enviosManana = 0;
         int enviosTarde = 0;
@@ -144,7 +144,7 @@ public class PagoService {
         }
     }
 
-    private double descuentoVariacionKilos(String proveedor,Double cantidadActual){
+    public double descuentoVariacionKilos(String proveedor,Double cantidadActual){
         double variacion = variacionLeche(proveedor,cantidadActual);
         if(variacion <= -0.46){
             return 0.3;
@@ -156,7 +156,7 @@ public class PagoService {
             return 0.0;
         }
     }
-    private double variacionLeche(String proveedor,Double cantidadActual){
+    public double variacionLeche(String proveedor,Double cantidadActual){
         List<AcopioEntity> acopiosQuincenaAnterior = acopioService.quincenaPorProveedor(proveedor,2);
         double cantidadLecheAnterior = acopiosQuincenaAnterior.stream()
                 .mapToDouble(AcopioEntity::getKg_leche)
@@ -164,7 +164,7 @@ public class PagoService {
         return (cantidadActual - cantidadLecheAnterior)/cantidadLecheAnterior;
     }
 
-    private double descuentoVariacionGrasa(String proveedor,Integer cantidadActual){
+    public double descuentoVariacionGrasa(String proveedor,Integer cantidadActual){
         double variacion = variacionGrasa(proveedor,cantidadActual);
         if(variacion <= -0.41){
             return 0.3;
@@ -177,14 +177,14 @@ public class PagoService {
         }
     }
 
-    private double variacionGrasa(String proveedor,Integer cantidadActual){
+    public double variacionGrasa(String proveedor,Integer cantidadActual){
         LocalDate quincenaAnterior = LocalDate.now().minusDays(15);
         PorcentajesEntity porentajeQuinAnt = porcentajesService.obtenerPorCodigoYFecha(proveedor,quincenaAnterior);
         double grasaAnterior = porentajeQuinAnt.getGrasas();
         return (cantidadActual - grasaAnterior)/grasaAnterior;
     }
 
-    private double descuentoVariacionSolidos(String proveedor,Integer cantidadActual){
+    public double descuentoVariacionSolidos(String proveedor,Integer cantidadActual){
         double variacion = variacionSolidos(proveedor,cantidadActual);
         if(variacion <= -0.36){
             return 0.45;
@@ -197,21 +197,21 @@ public class PagoService {
         }
     }
 
-    private double variacionSolidos(String proveedor,Integer cantidadActual){
+    public double variacionSolidos(String proveedor,Integer cantidadActual){
         LocalDate quincenaAnterior = LocalDate.now().minusDays(15);
         PorcentajesEntity porentajeQuinAnt = porcentajesService.obtenerPorCodigoYFecha(proveedor,quincenaAnterior);
         double solidosAnterior = porentajeQuinAnt.getSolidos();
         return (cantidadActual - solidosAnterior)/solidosAnterior;
     }
 
-    private double pagoFinal(double pago){
+    public double pagoFinal(double pago){
         if(pago > 950000){
             return pago - (pago * 0.13);
         }
         return pago;
     }
 
-    private Integer obtenerDias(List<AcopioEntity> quincena){
+    public Integer obtenerDias(List<AcopioEntity> quincena){
         ArrayList<LocalDate> dias = new ArrayList<>();
         for(AcopioEntity acopio : quincena){
             dias.add(acopio.getFecha());

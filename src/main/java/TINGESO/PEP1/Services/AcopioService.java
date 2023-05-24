@@ -1,7 +1,6 @@
 package TINGESO.PEP1.Services;
 
 import TINGESO.PEP1.Entities.AcopioEntity;
-import TINGESO.PEP1.Entities.ProveedorEntity;
 import TINGESO.PEP1.Repositories.AcopioRepository;
 import lombok.Generated;
 import org.slf4j.Logger;
@@ -20,7 +19,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AcopioService {
@@ -112,6 +110,10 @@ public class AcopioService {
         LocalDate finalQuincenaAnterior = fechaActual.minusDays(15);
         LocalDate inicioQuincenaAnterior = finalQuincenaAnterior.minusDays(14);
         return acopioRepository.findAcopiosBetweenDates(inicioQuincenaAnterior, finalQuincenaAnterior);
+    }
+
+    public void borrarAcopio(){
+        acopioRepository.deleteAll();
     }
 
 }

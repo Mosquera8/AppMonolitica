@@ -24,6 +24,9 @@ public class ProveedorService {
     public ProveedorEntity obtenerPorCodigo(String codigo){
         return proveedorRepo.findByCode(codigo);
     }
+    public void borrarTodos(){
+        proveedorRepo.deleteAll();
+    }
 
 
 

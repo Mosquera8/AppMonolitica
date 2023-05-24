@@ -1,8 +1,6 @@
 package TINGESO.PEP1.Services;
 
-import TINGESO.PEP1.Entities.AcopioEntity;
 import TINGESO.PEP1.Entities.PorcentajesEntity;
-import TINGESO.PEP1.Entities.ProveedorEntity;
 import TINGESO.PEP1.Repositories.PorcentajesRepository;
 import lombok.Generated;
 import org.slf4j.Logger;
@@ -94,5 +92,9 @@ public class PorcentajesService {
         porcentajesEntity.setSolidos(solidos);
         porcentajesEntity.setFecha(LocalDate.now());
         porcentajesRepository.save(porcentajesEntity);
+    }
+
+    public void borrarPorcentajes(){
+        porcentajesRepository.deleteAll();
     }
 }

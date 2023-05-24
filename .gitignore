@@ -5,6 +5,7 @@ target/
 !**/src/test/**/target/
 data/
 sonarqube-10.0.0.68432/
+jenkins.war
 ### STS ###
 .apt_generated
 .classpath
