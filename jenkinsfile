@@ -2,17 +2,11 @@ pipeline {
     agent { docker { image 'maven:3.3.3' } }
     
     stages {
-         // 
-         stage('log version info') {
-          steps {
-            sh 'mvn --version'
-            sh 'mvn clean install'
-            }
-        }
 
-        stage('Build') {
+        stage('log version info') {
             steps {
                 // Compilar la aplicación Spring Boot usando Maven Wrapper
+                sh 'mvn --version'
                 sh './mvnw clean package'
             }
         }
