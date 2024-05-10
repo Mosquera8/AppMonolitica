@@ -2,6 +2,14 @@ pipeline {
     agent { docker { image 'maven:3.3.3' } }
     
     stages {
+         // 
+         stage('log version info') {
+          steps {
+            sh 'mvn --version'
+            sh 'mvn clean install'
+            }
+        }
+
         stage('Build') {
             steps {
                 // Compilar la aplicación Spring Boot usando Maven Wrapper
@@ -14,33 +22,4 @@ pipeline {
                 sh './mvnw test'
             }
         }
-        stage('SonarQube Analysis') {
-            steps {
-                // Analizar el código con SonarQube
-                sh './mvnw clean verify sonar:sonar -Dsonar.projectKey=pep1 -Dsonar.projectName="pep1" -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_9d3336a27a6d8c6e7ebc353d9b50c1d3ac59dcf6'
-            }
-        }
-        stage('Build Docker Image') {
-            steps {
-                // Construir la imagen Docker
-                sh 'docker build -t ricardouni/proyecto_monolitico .'
-            }
-        }
-        stage('Push Docker Image') {
-            steps {
-                // Iniciar sesión en Docker Hub y enviar la imagen
-                withCredentials([string(credentialsId: 'dckrhubpassword', variable: 'dckpass')]) {
-                    sh 'docker login -u ricardouni -p ${dckpass}'
-                }
-                sh 'docker push ricardouni/proyecto_monolitico'
-            }
-        }
-    }
-    
-    post {
-        always {
-            // Cerrar sesión en Docker después de cada ejecución
-            sh 'docker logout'
-        }
-    }
 }
